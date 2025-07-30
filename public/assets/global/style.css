@@ -34,6 +34,7 @@ a{
 
 button{
     cursor:pointer;
+    font-family: var(--main-font);
 }
 
 .icon,
@@ -188,7 +189,7 @@ nav .item{
 }
 
 .dashboard-container .con .header .page-lander {color:rgba(0,0,0,0.2);}
-.dashboard-container .con .header .page-lander span{color: #000 !important}
+.dashboard-container .con .header .page-lander span{color: #000}
 
 .dashboard-container .con .header nav{
     display:flex;
@@ -288,3 +289,40 @@ nav .item{
 }
 
 .dashboard-container .popup .popbox .profile .setting-profile a{color:var(--main-color);}
+
+.form-row{
+    width: 360px;
+    position: relative;
+    border: 1px solid var(--controler-bdcolor);
+    border-radius: 10px;
+}
+
+.form-row .action-label{
+    position: absolute;
+    left: 10px;
+    top: 1rem;
+    font-size: 1rem;
+    color: #000000;
+    transition: 0.3s;
+}
+
+.form-row input{
+    position: relative;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 1rem 10px;
+    background-color: transparent;
+    font-family: var(--main-font);
+    font-size: 1rem;
+    z-index: 2;
+}
+
+.form-row:focus-within .action-label,
+.form-row.filled .action-label {
+    top: -10px;
+    font-size: 14px;
+    color: #aaaaaa;
+    background-color: var(--box-bgcolor);
+}
+

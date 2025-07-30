@@ -1,3 +1,7 @@
+@php
+    $user = Auth::user();
+@endphp
+
 <div class="home">
     <div class="title">
         Home
@@ -5,11 +9,8 @@
     <div class="con">
         <div class="row">
             <div class="block-1 box">
-                <div class="icon icon-pro">
-                    <img src="">
-                </div>
                 <div class="message">
-                  sdsdwd  Welcome back, <span></span>
+                    Welcome back, <span>{{ $user->student->first_name }} {{ $user->student->last_name }}</span>
                 </div>
                 <div class="des" id="show-datetime"></div>
             </div>

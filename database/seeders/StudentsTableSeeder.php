@@ -16,10 +16,10 @@ class StudentsTableSeeder extends Seeder
         DB::table('students')->insert([
             [
                 'user_id' => '1', 'major' => 'Information Technology', 
-                'first_name' => 'Lim', 'last_name' => 'Chhayhout',
+                'first_name' => 'Test', 'last_name' => 'Student',
                 'year' => '3', 'group_id' => '1',
                 'province' => 'Phnom Penh', 'full_address' => 'No 153 Street C Borey New World Chhouk Meas, Phnom Penh Thmey, Sen Sok',
-                'phone' => '012345678', 'image' => 'student1.png',
+                'phone' => '012345678', 'image' => 'profile.jpg',
                 'created_at' => now()
             ]
         ]);

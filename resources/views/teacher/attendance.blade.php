@@ -1,6 +1,6 @@
 <div class="attendance">
     <div class="title">
-        My Attendance
+        Group Attendance
     </div>
     <div class="con">
         <div class="row">

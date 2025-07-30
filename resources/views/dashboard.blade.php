@@ -1,3 +1,6 @@
+@php
+    $user = Auth::user();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,17 +15,13 @@
 <body>
 
     <div class="dashboard-container">
-        @if (auth()->user()->role === 'student')
-            @include('components.sidebar-student')
-        @elseif (auth()->user()->role === 'teacher')
-            @include('components.sidebar-teacher')
-        @endif
+        @include('components.sidebar')
         <div class="con">
             @include('components.head')
             <div class="main" id="main-content">
-                @if (auth()->user()->role === 'student')
+                @if ($user->role === 'student')
                     @include('student.home')
-                @elseif (auth()->user()->role === 'teacher')
+                @elseif ($user->role === 'teacher')
                     @include('teacher.home')
                 @endif
             </div>

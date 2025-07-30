@@ -16,9 +16,9 @@ class TeachersTableSeeder extends Seeder
         DB::table('teachers')->insert([
             [
                 'user_id' => '2',
-                'first_name' => 'Lim', 'last_name' => 'Chhayhout',
+                'first_name' => 'Test', 'last_name' => 'Teacher',
                 'province' => 'Phnom Penh', 'full_address' => 'No 153 Street C Borey New World Chhouk Meas, Phnom Penh Thmey, Sen Sok',
-                'phone' => '012345678', 'image' => 'teacher1.png',
+                'phone' => '012345678', 'image' => 'profile.jpg',
                 'created_at' => now()
             ]
         ]);

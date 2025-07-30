@@ -16,15 +16,15 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'username' => 'std00001',
+                'username' => 'stdtest',
                 'email' => 'test@student.com',
-                'password' => Hash::make('12345678'),
+                'password' => Hash::make('123'),
                 'role' => 'student',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'username' => 'tc00001',
+                'username' => 'tctest',
                 'email' => 'test@teacher.com',
                 'password' => Hash::make('123'),
                 'role' => 'teacher',

@@ -46,34 +46,6 @@
     gap: 1rem;
 }
 
-.auth .form-box .form-row{
-    width: 360px;
-    position: relative;
-    border: 1px solid var(--controler-bdcolor);
-    border-radius: 10px;
-}
-
-.auth .form-box .form-row .action-label{
-    position: absolute;
-    left: 10px;
-    top: 1rem;
-    font-size: 1rem;
-    color: #aaaaaa;
-    transition: 0.3s;
-}
-
-.auth .form-box .form-row input{
-    position: relative;
-    width: 100%;
-    border: none;
-    outline: none;
-    padding: 1rem 10px;
-    background-color: transparent;
-    font-family: var(--main-font);
-    font-size: 1rem;
-    z-index: 2;
-}
-
 .auth .form-box .form-row input[type="password"] {
     padding-right: 36px !important;
 }
@@ -115,13 +87,6 @@
 
 .auth .form-box .link-support a{
     color: var(--main-color);
-}
-
-.auth .form-row:focus-within .action-label,
-.auth .form-row.filled .action-label {
-    top: -10px;
-    font-size: 14px;
-    background-color: var(--box-bgcolor);
 }
 
 .support{

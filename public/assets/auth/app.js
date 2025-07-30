@@ -1,27 +1,4 @@
 /* ------------------------------------------------------------------
-   action label with input
-   ------------------------------------------------------------------ */
-(() => {
-    document.addEventListener('DOMContentLoaded', function () {
-        const inputs = document.querySelectorAll('.form-control');
-        if (inputs.length === 0) return; // Exit early if no matching inputs
-
-        inputs.forEach(input => {
-            input.addEventListener('input', () => {
-                const row = input.closest('.form-row');
-                if (!row) return;
-
-                if (input.value.trim() !== "") {
-                    row.classList.add('filled');
-                } else {
-                    row.classList.remove('filled');
-                }
-            });
-        });
-    });
-})();
-
-/* ------------------------------------------------------------------
    login form
    ------------------------------------------------------------------ */
 (() => {
