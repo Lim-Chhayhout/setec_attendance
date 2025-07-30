@@ -1,35 +1,44 @@
-/* ------------------------------------------------------------------
-   duration qr count down 
-   ------------------------------------------------------------------ */
-(() => {
-    window.startCountdown = (selector = '.duration-fe') => {
-        const timerEl = document.querySelector(selector);
-        if (!timerEl) return;
+window.startCountdown = function(selector = '.duration-fe') {
+    const countdownEl = document.querySelector(selector);
+    if (!countdownEl) return;
 
-        const minutes = Number(timerEl.dataset.duration);
-        if (isNaN(minutes) || minutes <= 0) return;
+    let remaining = parseInt(countdownEl.dataset.remaining);
+    if (isNaN(remaining) || remaining <= 0) {
+        countdownEl.textContent = 'Expired';
+        handleQrExpired();
+        return;
+    }
 
-        let totalSeconds = minutes * 60;
+    const update = () => {
+        if (remaining <= 0) {
+            countdownEl.textContent = 'Expired';
+            handleQrExpired();
+            return;
+        }
 
-        const formatTime = (sec) => {
-            const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-            const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-            const s = String(sec % 60).padStart(2, '0');
-            return `${h}:${m}:${s}`;
-        };
+        const hrs = Math.floor(remaining / 3600);
+        const mins = Math.floor((remaining % 3600) / 60);
+        const secs = remaining % 60;
 
-        const update = () => {
-            if (totalSeconds < 0) return;
-            timerEl.textContent = formatTime(totalSeconds);
-            totalSeconds--;
-            if (totalSeconds >= 0) {
-                setTimeout(update, 1000);
-            }
-        };
-
-        update();
+        countdownEl.textContent = `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        remaining--;
     };
-})();
+
+    update();
+    setInterval(update, 1000);
+};
+
+function handleQrExpired() {
+    fetch('/qr/clear-session', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Content-Type': 'application/json',
+        },
+    }).then(() => {
+        location.reload();
+    });
+}
 
 /* ------------------------------------------------------------------
    download qr code fuction

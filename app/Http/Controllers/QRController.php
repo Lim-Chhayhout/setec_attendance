@@ -9,11 +9,27 @@ use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QRController extends Controller
-{
+{   
+    public function showQR()
+    {
+        $qrSession = session('qr_session');
+
+        if (!$qrSession) {
+            return view('teacher.attendanceqrcode');
+        }
+
+        if (Carbon::now()->timestamp >= $qrSession['expires_at']) {
+            session()->forget('qr_session');
+            return view('teacher.attendanceqrcode');
+        }
+
+        return view('teacher.attendanceqrcode', $qrSession);
+    }
+
     public function generatePost(Request $request){
 
-        $created_at = Carbon::now()->format('l, F j, Y \a\t g:i:s A');
-
+        $created_at = Carbon::now();
+        $created_at_format = Carbon::now()->format('l, F j, Y \a\t g:i:s A');
         $subject = $request->input('subject');
         $group = $request->input('group');
         $room = $request->input('room');
@@ -33,6 +49,7 @@ class QRController extends Controller
 
         $qrData = json_encode([
             'created_at' => $created_at,
+            'created_at_format' => $created_at_format,
             'subject' => $subject,
             'group' => $group,
             'room' => $room,
@@ -47,19 +64,25 @@ class QRController extends Controller
 
         $qr = QrCode::format('svg')->generate($qrData);
 
-        return view('teacher.attendanceqrcode', [
-            'qr' => $qr,
-            'created_at' => $created_at,
-            'subject' => $subject,
-            'group' => $group,
-            'room' => $room,
-            'note' => $note,
-            'time_start_study' => $time_start_study,
-            'time_end_study' => $time_end_study,
-            'duration' => $duration,
-            'teacherId' => $teacherId,
-            'qrToken' => $qrToken,
+        session([
+            'qr_session' => [
+                'qr' => $qr,
+                'created_at' => $created_at,
+                'created_at_format' => $created_at_format,
+                'subject' => $subject,
+                'group' => $group,
+                'room' => $room,
+                'note' => $note,
+                'time_start_study' => $time_start_study,
+                'time_end_study' => $time_end_study,
+                'duration' => $duration,
+                'teacherId' => $teacherId,
+                'qrToken' => $qrToken,
+                'expires_at' => $expires_at->timestamp
+            ]
         ]);
+
+        return redirect()->route('qr.page'); 
 
     }
 }

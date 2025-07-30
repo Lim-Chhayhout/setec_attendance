@@ -1,4 +1,7 @@
-@if(isset($qr))
+@if(session()->has('qr_session'))
+    @php
+        $qrData = session('qr_session');
+    @endphp
     <div class="scan">
         <div class="title">
             Attendance QR Code
@@ -6,42 +9,45 @@
         <div class="con" id="apr-generated-p">
             <div class="col qr-c">
                 <div class="box qr-card">
-                    {!! $qr !!}
+                    {!! $qrData['qr'] !!}
                 </div>
             </div>
             <div class="col qr-de">
                 <div class="box qr-detail">
                     <div class="top">
                         <div class="generated-at">
-                            {{ $created_at }}
+                            {{ $qrData['created_at_format'] }}
                         </div>
                     </div>
                     <div class="mid">
                         <i class="fa-regular fa-clock"></i>
-                        <div class="duration-fe" data-duration="{{ $duration }}"></div>
+                        @php
+                            $remaining = $qrData['expires_at'] - now()->timestamp;
+                        @endphp
+                        <div class="duration-fe" data-remaining="{{ $remaining }}"></div>
                     </div>
                     <div class="bottom">
                         <div class="row">
                             <span class="label">Subject:</span>
-                            <span class="value">{{ $subject }}</span>
+                            <span class="value">{{ $qrData['subject'] }}</span>
                         </div>
                         <div class="row">
                             <span class="label">Group:</span>
-                            <span class="value">{{ $group }}</span>
+                            <span class="value">{{ $qrData['group'] }}</span>
                         </div>
                         <div class="row">
                             <span class="label">Room:</span>
-                            <span class="value">{{ $room }}</span>
+                            <span class="value">{{ $qrData['room'] }}</span>
                         </div>
                         <div class="row">
                             <span class="label">Time:</span>
-                            <span class="value">{{ $time_start_study }} - {{ $time_end_study }}</span>
+                            <span class="value">{{ $qrData['time_start_study'] }} - {{ $qrData['time_end_study'] }}</span>
                         </div>
-                        @if($note)
-                        <div class="row">
-                            <span class="label">Note:</span>
-                            <span class="value">{{ $note }}</span>
-                        </div>
+                        @if($qrData['note'])
+                            <div class="row">
+                                <span class="label">Note:</span>
+                                <span class="value">{{ $qrData['note'] ?? '' }}</span>
+                            </div>
                         @endif
                     </div>
                 </div>
