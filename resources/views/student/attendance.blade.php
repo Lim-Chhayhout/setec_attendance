@@ -10,10 +10,10 @@
                 </div>
                 <div class="move-week">
                     <div class="left">
-                        <img src="{{ asset('assets/dashboard/icons/chevron-left-solid.svg')}}">
+                        <img src="{{ asset('assets/global/icons/chevron-left-solid.svg')}}">
                     </div>
                     <div class="right">
-                        <img src="{{ asset('assets/dashboard/icons/chevron-right-solid.svg')}}">
+                        <img src="{{ asset('assets/global/icons/chevron-right-solid.svg')}}">
                     </div>
                 </div>
             </div>
@@ -189,10 +189,10 @@
                 </div>
                 <div class="move-week">
                     <div class="left">
-                        <img src="{{ asset('assets/dashboard/icons/chevron-left-solid.svg')}}">
+                        <img src="{{ asset('assets/global/icons/chevron-left-solid.svg')}}">
                     </div>
                     <div class="right">
-                        <img src="{{ asset('assets/dashboard/icons/chevron-right-solid.svg')}}">
+                        <img src="{{ asset('assets/global/icons/chevron-right-solid.svg')}}">
                     </div>
                 </div>
             </div>
