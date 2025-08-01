@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Users
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 100)->unique(); // std0001 or tc0001
+            $table->string('username', 100)->unique();
             $table->string('email')->unique();
             $table->string('password', 100);
             $table->enum('role', ['student', 'teacher']);

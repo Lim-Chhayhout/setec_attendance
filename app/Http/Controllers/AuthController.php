@@ -67,4 +67,25 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
+    public function contentStudent($page)
+    {   
+        if (!in_array($page, ['home', 'scan', 'attendance'])) {
+            abort(404);
+        }
+
+        return view("student.$page");
+    }
+
+    public function contentTeacher($page)
+    {
+        if (!in_array($page, ['home', 'attendanceqrcode', 'attendance'])) {
+            abort(404);
+        }
+
+        if ($page === 'attendanceqrcode') {
+            return app(QRController::class)->showQR();
+        }
+
+        return view("teacher.$page");
+    }
 }

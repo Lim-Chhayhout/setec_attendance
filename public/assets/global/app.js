@@ -1,93 +1,111 @@
 /* ------------------------------------------------------------------
-   data‑profile line‑wrapping (80 chars)
+   global action label with input
    ------------------------------------------------------------------ */
 (() => {
-   const target = document.getElementById('data-profile');
-   if (!target) return;                
+    document.addEventListener('input', (e) => {
+        const input = e.target.closest('.form-control');
+        if (!input) return;
 
-   const text = (target.textContent || '').trim();
-   if (!text) return;               
+        const row = input.closest('.form-row');
+        if (!row) return;
 
-   const chunks = text.match(/.{1,80}/g);
-   if (!chunks) return;
-
-   target.textContent = chunks.join('\n');
+        if (input.value.trim() !== "") {
+            row.classList.add('filled');
+        } else {
+            row.classList.remove('filled');
+        }
+    });
 })();
 
 /* ------------------------------------------------------------------
-   profile popup helpers
+   global login form
    ------------------------------------------------------------------ */
 (() => {
-   const popup = document.getElementById('profilePopup');
-   if (!popup) return;                      
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('login-form');
+        if (!form) return;
 
-   window.openProfile  = () => { popup.style.display = 'flex'; };
-   window.closeProfile = () => { popup.style.display = 'none';  };
+        const errorIcon = document.getElementById('error-icon');
+        const errorText = document.getElementById('error-text');
+        const errorRowEP = document.getElementById('rowEP');
+        const errorRowPW = document.getElementById('rowPW');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            fetch(window.routes.loginPost, {
+                method: "POST",
+                headers: { "Accept": "application/json" },
+                body: formData
+            })
+            .then(async res => {
+                const data = await res.json();
+
+                if (data.error) {
+                    errorIcon.style.display = 'flex';
+                    errorText.innerText = data.message || 'Login failed.';
+
+                    if (errorRowEP) {
+                        errorRowEP.style.border = data.epRow ? '1px solid #ff0000' : '';
+                        const epSpan = errorRowEP.querySelector('span');
+                        if (epSpan) epSpan.style.color = data.epRow ? '#ff0000' : '';
+                    }
+
+                    if (errorRowPW) {
+                        errorRowPW.style.border = data.pRow ? '1px solid #ff0000' : '';
+                        const pwSpan = errorRowPW.querySelector('span');
+                        if (pwSpan) pwSpan.style.color = data.pRow ? '#ff0000' : '';
+                    }
+
+                    return;
+                }
+
+                if (data.redirect) {
+                    window.location.replace(data.redirect);
+                }
+            })
+            .catch(() => {
+                if (errorIcon) errorIcon.style.display = 'flex';
+                if (errorText) errorText.innerText = "Something went wrong.";
+            });
+        });
+    });
 })();
 
 /* ------------------------------------------------------------------
-   switch page
+   global show/close password input
    ------------------------------------------------------------------ */
 (() => {
-   const items = document.querySelectorAll('.menu-sidebar .item');
-   const landerText = document.getElementById('lander-text');
-   const contentArea = document.getElementById('main-content');
+    document.addEventListener("DOMContentLoaded", () => {
+        const passwordInput = document.querySelector("#rowPW input[name='password']");
+        const showBtn = document.getElementById("show-password");
+        const closeBtn = document.getElementById("close-password");
 
-   if (!items.length || !landerText || !contentArea) return;
+        if (!passwordInput || !showBtn || !closeBtn) return;
 
-   items.forEach(item => {
-      item.addEventListener('click', function () {
-         // 1. Set active item class
-         items.forEach(i => i.classList.remove('active-item-menu'));
-         this.classList.add('active-item-menu');
+        const toggleVisibility = (visible) => {
+            passwordInput.type = visible ? "text" : "password";
+            showBtn.style.display = visible ? "none" : "flex";
+            closeBtn.style.display = visible ? "flex" : "none";
+        };
 
-         // 2. Update lander text
-         const input = this.querySelector('input[type="hidden"]');
-         if (input) {
-            landerText.textContent = input.value;
-         }
+        passwordInput.addEventListener("input", () => {
+            const hasValue = passwordInput.value.trim() !== "";
+            showBtn.style.display = hasValue ? "flex" : "none";
+            if (!hasValue) {
+                closeBtn.style.display = "none";
+                passwordInput.type = "password";
+            }
+        });
 
-         // 3. Load content via AJAX
-         const url = this.getAttribute('data-url');
-         if (url) {
-            fetch(url)
-               .then(res => res.text())
-               .then(html => {
-                  contentArea.innerHTML = html;
-                  initDateTimeInfo();
-               })
-               .catch(err => {
-                  contentArea.innerHTML = '<p>Error loading content.</p>';
-               });
-         }
-      });
-   });
-
-   // Default selection (first item)
-   const firstItem = items[0];
-   firstItem.classList.add('active-item-menu');
-
-   const defaultInput = firstItem.querySelector('input[type="hidden"]');
-   if (defaultInput) {
-      landerText.textContent = defaultInput.value;
-   }
-
-   const defaultUrl = firstItem.getAttribute('data-url');
-   if (defaultUrl) {
-      fetch(defaultUrl)
-         .then(res => res.text())
-         .then(html => {
-            contentArea.innerHTML = html;
-            initDateTimeInfo();
-         })
-         .catch(err => {
-            contentArea.innerHTML = '<p>Error loading default content.</p>';
-         });
-   }
+        showBtn.addEventListener("click", () => toggleVisibility(true));
+        closeBtn.addEventListener("click", () => toggleVisibility(false));
+    });
 })();
 
 /* ------------------------------------------------------------------
-   date time
+   global date time
    ------------------------------------------------------------------ */
 function initDateTimeInfo() {
    const dtEl       = document.getElementById('show-datetime');
@@ -108,7 +126,13 @@ function initDateTimeInfo() {
    });
 
    function updateNow() {
-      if (dtEl) dtEl.textContent = fmt.format(new Date());
+      const now = new Date();
+
+      if (dtEl) dtEl.textContent = fmt.format(now);
+
+      const iso = now.toISOString();
+      const input = document.getElementById('generated-at');
+      if (input) input.value = iso;
    }
 
    function setYesterday() {
@@ -142,3 +166,33 @@ function initDateTimeInfo() {
 
    if (dtEl) setInterval(updateNow, 1000);
 }
+
+/* ------------------------------------------------------------------
+   global data‑profile line‑wrapping (80 chars)
+   ------------------------------------------------------------------ */
+(() => {
+   const target = document.getElementById('data-profile');
+   if (!target) return;                
+
+   const text = (target.textContent || '').trim();
+   if (!text) return;               
+
+   const chunks = text.match(/.{1,80}/g);
+   if (!chunks) return;
+
+   target.textContent = chunks.join('\n');
+})();
+
+/* ------------------------------------------------------------------
+   global profile popup helpers
+   ------------------------------------------------------------------ */
+(() => {
+   const popup = document.getElementById('profilePopup');
+   if (!popup) return;                      
+
+   window.openProfile  = () => { popup.style.display = 'flex'; };
+   window.closeProfile = () => { popup.style.display = 'none';  };
+})();
+
+
+

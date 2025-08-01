@@ -34,4 +34,9 @@ class Teacher extends Model
     {
         return $this->hasMany(TeacherPosition::class);
     }
+
+    public function qrCodes()
+    {
+        return $this->hasMany(QrCode::class);
+    }
 }

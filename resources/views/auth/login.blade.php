@@ -12,7 +12,7 @@
             <form id="login-form" method="POST">
                 @csrf
                 <div class="form-row" id="rowEP">
-                    <span class="action-label" id="">Username or email</span>
+                    <span class="action-label">Username or email</span>
                     <input type="text" name="identifier" class="form-control" required>
                 </div>
                 <div class="form-row" id="rowPW">

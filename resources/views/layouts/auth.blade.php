@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Default Title')</title>
     <link rel="stylesheet" href="{{ asset('assets/global/style.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/auth/style.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 </head>
 <body>
@@ -16,6 +15,5 @@
     </div>
 
     <script src="{{ asset('assets/global/app.js')}}"></script>
-    <script src="{{ asset('assets/auth/app.js')}}"></script>
 </body>
 </html>
