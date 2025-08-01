@@ -116,7 +116,8 @@ function initDateTimeInfo() {
                contentArea.innerHTML = html;
                initDateTimeInfo();
                initQRFormHandler();
-               startCountdown();
+               initQrCountdown();
+               initQREndHandler()
                localStorage.setItem('lastPage', JSON.stringify({ title, url }));
             })
             .catch(() => {
@@ -147,38 +148,9 @@ function initDateTimeInfo() {
 
    document.getElementById('logout-form').addEventListener('submit', function () {
       localStorage.removeItem('lastPage');
+      sessionStorage.clear();
    });
 
-   window.startQrCountdown = function(selector = '.duration-fe') {
-   const timerEl = document.querySelector(selector);
-   if (!timerEl) return;
-
-   let totalSeconds = Number(timerEl.dataset.remaining);
-   if (isNaN(totalSeconds) || totalSeconds <= 0) {
-      window.location.reload();
-      return;
-   }
-
-   const formatTime = (sec) => {
-      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-      const s = String(sec % 60).padStart(2, '0');
-      return `${h}:${m}:${s}`;
-   };
-
-   const update = () => {
-      if (totalSeconds <= 0) {
-            window.location.reload();
-            return;
-      }
-      timerEl.textContent = formatTime(totalSeconds);
-      totalSeconds--;
-      setTimeout(update, 1000);
-   };
-
-   update();
-};
-   
 })();
 
 /* ------------------------------------------------------------------

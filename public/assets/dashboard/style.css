@@ -300,9 +300,15 @@
     font-size: 1rem;
 }
 
-#apr-generated-p .col .btn-row .btn-stop-qr{
+#apr-generated-p .col .btn-row .btn-end-qr{
     border: 1px solid red;
     color: red;
+    transition: 0.2s;
+}
+
+#apr-generated-p .col .btn-row .btn-end-qr:hover{
+    background-color: red;
+    color: #ffffff;
 }
 
 #apr-generated-p .col .btn-row .btn-down-qr{

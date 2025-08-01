@@ -1,7 +1,4 @@
-@if(session()->has('qr_session'))
-    @php
-        $qrData = session('qr_session');
-    @endphp
+@if($qr && $qrData)
     <div class="scan">
         <div class="title">
             Attendance QR Code
@@ -9,22 +6,19 @@
         <div class="con" id="apr-generated-p">
             <div class="col qr-c">
                 <div class="box qr-card">
-                    {!! $qrData['qr'] !!}
+                    {!! $qr !!}
                 </div>
             </div>
             <div class="col qr-de">
                 <div class="box qr-detail">
                     <div class="top">
                         <div class="generated-at">
-                            {{ $qrData['created_at_format'] }}
+                            {{ $qrData['created_at'] }}
                         </div>
                     </div>
                     <div class="mid">
                         <i class="fa-regular fa-clock"></i>
-                        @php
-                            $remaining = $qrData['expires_at'] - now()->timestamp;
-                        @endphp
-                        <div class="duration-fe" data-remaining="{{ $remaining }}"></div>
+                        <div class="duration-fe" data-expired="{{ $qrData['expired_at'] }}">0:00:00</div>
                     </div>
                     <div class="bottom">
                         <div class="row">
@@ -41,19 +35,18 @@
                         </div>
                         <div class="row">
                             <span class="label">Time:</span>
-                            <span class="value">{{ $qrData['time_start_study'] }} - {{ $qrData['time_end_study'] }}</span>
+                            <span class="value">{{ $qrData['study_time'] }}</span>
                         </div>
                         @if($qrData['note'])
-                            <div class="row">
-                                <span class="label">Note:</span>
-                                <span class="value">{{ $qrData['note'] ?? '' }}</span>
-                            </div>
+                            <div class="row"><span class="label">Note:</span> {{ $qrData['note'] }}</div>
                         @endif
                     </div>
                 </div>
                 <div class="btn-row">
                     <button onclick="downloadQrCode()" class="btn-down-qr"><i class="fa-solid fa-qrcode"></i> Download</button>
-                    <button class="btn-stop-qr">Stop</button>
+                    <form action="{{ route('qr.end')}}" method="POST" id="qr-end">
+                        <button type="submit" class="btn-end-qr">End</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -80,7 +73,7 @@
             Generate attendance
         </div>
         <div class="con">
-            <form action="{{ route('generate.post')}}" method="POST" class="box gen-qr-form" id="qr-form">
+            <form action="{{ route('qr.create')}}" method="POST" class="box gen-qr-form" id="qr-form">
                 @csrf
                 <div class="gen-fm-fe">
                     <div class="col">
@@ -114,7 +107,7 @@
                         </div>
                         <div class="form-row">
                             <span class="action-label">Duration (min)</span>
-                            <input type="number" name="duration" class="form-control" required>
+                            <input type="number" name="duration" class="form-control" min="1" max="1440" required>
                         </div>
                     </div>
                 </div>
@@ -127,4 +120,5 @@
         </div>
     </div>
 @endif
+
 

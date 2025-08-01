@@ -82,6 +82,10 @@ class AuthController extends Controller
             abort(404);
         }
 
+        if ($page === 'attendanceqrcode') {
+            return app(QRController::class)->showQR();
+        }
+
         return view("teacher.$page");
     }
 }

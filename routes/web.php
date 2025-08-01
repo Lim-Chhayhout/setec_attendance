@@ -25,11 +25,7 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
 Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/{page}', [AuthController::class, 'contentTeacher'])->name('teacher.page');
-    Route::post('teacher/attendanceqrcode', [QRController::class, 'generatePost'])->name('generate.post');
-    Route::get('/qr-page', [QRController::class, 'showQR'])->name('qr.page');
-    Route::post('/qr/clear-session', function () {
-        session()->forget('qr_session');
-        return response()->json(['status' => 'cleared']);
-    })->name('qr.clear');
-
+    Route::post('teacher/attendanceqrcode/create', [QRController::class, 'createQR'])->name('qr.create');
+    Route::get('teacher/attendanceqrcode/show', [QRController::class, 'showQR'])->name('qr.show');
+    Route::post('teacher/attendanceqrcode/end', [QRController::class, 'endQR'])->name('qr.end');
 });
