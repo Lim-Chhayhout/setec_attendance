@@ -15,6 +15,7 @@ class QrCode extends Model
 
     protected $fillable = [
         'qr_token',
+        'ip_address',
         'teacher_id',
         'duration_min',
         'created_at',

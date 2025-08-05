@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('assets/global/style.css')}}">
         <link rel="stylesheet" href="{{ asset('assets/auth/student/style.css')}}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+        <script src="https://unpkg.com/html5-qrcode"></script>
     </head>
     <body>
 

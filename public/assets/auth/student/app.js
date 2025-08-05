@@ -58,3 +58,55 @@
     });
 
 })();
+
+/* ------------------------------------------------------------------
+    student open camera
+   ------------------------------------------------------------------ */
+let html5QrCode;
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('click', async function (e) {
+        const openBtn = e.target.closest('#open-camera');
+        const closeBtn = e.target.closest('#close-camera');
+        const camPopup = document.getElementById('cam-popup');
+
+        if (openBtn && camPopup) {
+            camPopup.style.display = 'flex';
+
+            if (!html5QrCode) {
+                html5QrCode = new Html5Qrcode("reader");
+            }
+
+            try {
+                await html5QrCode.start(
+                    { facingMode: "environment" },
+                    { fps: 10, qrbox: 250 },
+                    (decodedText, decodedResult) => {
+                        console.log("Scanned:", decodedText);
+                        html5QrCode.stop().then(() => {
+                            camPopup.style.display = 'none';
+                        });
+                    },
+                    (errorMessage) => {}
+                );
+            } catch (err) {
+                console.error("Camera start error", err);
+            }
+        }
+
+        if (closeBtn && camPopup) {
+            camPopup.style.display = 'none';
+
+            if (html5QrCode && html5QrCode.getState() === Html5QrcodeScannerState.SCANNING) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                }).catch(err => {
+                    console.error("Stop failed", err);
+                });
+            }
+        }
+    });
+});
+
+
+

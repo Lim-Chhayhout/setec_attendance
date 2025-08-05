@@ -31,9 +31,12 @@ class QRController extends Controller
         $token = Str::random(32);
         $now = Carbon::now();
         $expiresAt = $now->copy()->addMinutes((int) $request->duration);
+        $ip = $request->ip();
+        $ipPrefix = implode('.', array_slice(explode('.', $ip), 0, 3));
 
         $qrCode = ModelQrCode::create([
             'qr_token' => $token,
+            'ip_address' => $ipPrefix,
             'teacher_id' => $teacherId,
             'duration_min' => $request->duration,
             'created_at' => $now,

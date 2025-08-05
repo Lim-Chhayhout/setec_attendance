@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('qr_codes', function (Blueprint $table) {
             $table->id();
             $table->string('qr_token')->unique();
+            $table->string('ip_address', 50);
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
             $table->integer('duration_min');
             $table->timestamp('created_at')->useCurrent();
