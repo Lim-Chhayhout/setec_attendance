@@ -1,4 +1,6 @@
 .btn-gen-qr{
+    width: 100px !important;
+    height: 100px !important;
     cursor: pointer;
     opacity: 68%;
     transition: 0.2s;
@@ -6,6 +8,14 @@
 
 .btn-gen-qr:hover{
     opacity: 100%;
+}
+
+.btn-gen-qr .icon i{
+    font-size: 1.8rem !important;
+}
+
+.btn-gen-qr .message{
+    font-size: 1rem !important;
 }
 
 .gen-qr-form{
@@ -149,8 +159,8 @@
     width: 100%;
 }
 
-.time:focus-within .action-label,
-.time .action-label {
+.contain:focus-within .action-label,
+.contain .action-label {
     top: -10px;
     font-size: 14px;
     color: #aaaaaa;
@@ -168,3 +178,4 @@
     height: auto;
     display: block;
 }
+

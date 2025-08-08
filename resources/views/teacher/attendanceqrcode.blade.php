@@ -1,3 +1,8 @@
+@php
+    $user = Auth::user();
+@endphp
+
+
 @if($qr && $qrData)
     <div class="scan">
         <div class="title">
@@ -63,7 +68,6 @@
                         <i class="fa-solid fa-qrcode"></i> 
                     </div>
                     <div class="message">Generate</div>
-                    <div class="des">Attendance QR Code</div>
                 </div>
             </div> 
         </div>
@@ -77,13 +81,21 @@
                 @csrf
                 <div class="gen-fm-fe">
                     <div class="col">
-                        <div class="form-row">
+                        <div class="form-row contain">
                             <span class="action-label">Subject</span>
-                            <input type="text" name="subject" class="form-control" required>
+                            <select name="subject">
+                                @foreach ($user->teacher->subjects as $subject)
+                                    <option value="{{ $subject->title }}">{{ $subject->title }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="form-row">
+                        <div class="form-row contain">
                             <span class="action-label">Group</span>
-                            <input type="text" name="group" class="form-control" required>
+                            <select name="group">
+                                @foreach ($user->teacher->groups as $group)
+                                    <option value="{{ $group->group_name }}">{{ $group->group_name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-row">
                             <span class="action-label">Room</span>
@@ -96,11 +108,11 @@
                     </div>
                     <div class="col">
                         <div class="row">
-                            <div class="form-row time">
+                            <div class="form-row contain">
                                 <span class="action-label">Study Start Time</span>
                                 <input type="time" name="time_start_study" class="form-control" required>
                             </div>
-                            <div class="form-row time">
+                            <div class="form-row contain">
                                 <span class="action-label">Study End Time</span>
                                 <input type="time" name="time_end_study" class="form-control" required>
                             </div>

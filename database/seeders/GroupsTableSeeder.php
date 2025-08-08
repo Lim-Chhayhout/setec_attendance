@@ -14,7 +14,13 @@ class GroupsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('groups')->insert([
-            ['group_name' => 'SU4.13', 'shift' => 'Afternoon', 'program' => 'Information Technology.']
+            ['group_name' => 'SU4.13', 'shift' => 'Afternoon', 'program' => 'Information Technology.'],
+            ['group_name' => 'SU4.14', 'shift' => 'Afternoon', 'program' => 'Information Technology.']
+        ]);
+
+        DB::table('teacher_group_tokens')->insert([
+            ['teacher_id' => '1',  'group_id' => '1'],
+            ['teacher_id' => '1',  'group_id' => '2']
         ]);
     }
 }

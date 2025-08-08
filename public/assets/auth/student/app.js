@@ -145,7 +145,7 @@ function initQrScan() {
                 });
             })
             .catch(err => {
-                loadPopup('/popup/error');
+                loadPopup('/popup/failed');
             });
     });
 }

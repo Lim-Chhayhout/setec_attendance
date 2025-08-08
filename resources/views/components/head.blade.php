@@ -101,10 +101,18 @@
             </div>
             <div class="box profile">
                 <div class="row">
-                    <div class="title">Position</div>
-                    <div class="data">
-                        @foreach ($user->teacher->positions as $position)
-                            <div style="margin-bottom: 8px;"> {{ $position->title }} </div>
+                    <div class="title">Subject Token</div>
+                    <div class="data" style="display: flex; gap: 1rem;">
+                        @foreach ($user->teacher->subjects as $subjects)
+                            <div> {{ $subjects->title }} </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="title">Group Token</div>
+                    <div class="data" style="display: flex; gap: 1rem;">
+                        @foreach ($user->teacher->groups as $groups)
+                            <div> {{ $groups->group_name }} </div>
                         @endforeach
                     </div>
                 </div>
