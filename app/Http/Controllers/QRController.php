@@ -68,10 +68,9 @@ class QRController extends Controller
             ->first();
 
         if ($qr) {
+            
             $detail = ModelQrCodeDetail::where('qr_id', $qr->id)->first();
-
-            $qrHtml = QrCode::format('svg')->generate($qr->qr_token);
-
+            
             $qrData = [
                 'created_at' => $qr->created_at,
                 'expired_at' => $qr->expired_at,
@@ -82,6 +81,8 @@ class QRController extends Controller
                 'study_time' => $detail->study_time,
                 'note' => $detail->note,
             ];
+
+            $qrHtml = QrCode::format('svg')->generate($qr->qr_token);
 
             return view('teacher.attendanceqrcode', [
                 'qr' => $qrHtml,

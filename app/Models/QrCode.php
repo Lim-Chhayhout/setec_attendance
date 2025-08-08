@@ -27,8 +27,14 @@ class QrCode extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-    public function detail()
+    public function qrCodeDetail()
     {
         return $this->hasOne(QrCodeDetail::class, 'qr_id');
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'qr_id');
+    }
+
 }
