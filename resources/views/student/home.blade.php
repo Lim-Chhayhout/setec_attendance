@@ -14,20 +14,6 @@
                 </div>
                 <div class="des" id="show-datetime"></div>
             </div>
-            <div class="block-2 box">
-                <div class="pro-icon icon">
-                    <i class="fa-regular fa-clock" style="color: #1d9100;"></i>
-                </div>
-                <div class="message">230</div>
-                <div class="des">Hours Attended</div>
-            </div>
-            <div class="block-3 box">
-                <div class="icon">
-                    <i class="fa-regular fa-clock" style="color: red;"></i>
-                </div>
-                <div class="message">20</div>
-                <div class="des">Hours Absend</div>
-            </div>
         </div>
         <div class="row">
             <div class="block-4 box">

@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teacher_positions', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
-            $table->string('title', 100);
+            $table->foreignId('qrcode_id')->constrained('qr_codes')->onDelete('cascade');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
+            $table->timestamp('scanned_at')->useCurrent();
             $table->timestamps();
+            $table->unique(['qrcode_id', 'student_id']);
         });
+
     }
 
     /**
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teacher_positions');
+        Schema::dropIfExists('attendances');
     }
 };

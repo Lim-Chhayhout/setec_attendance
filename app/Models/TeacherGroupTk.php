@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TeacherPosition extends Model
+class TeacherGroupTk extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'teacher_id',
-        'title',
+        'group_id',
     ];
 
     /**
@@ -21,4 +21,10 @@ class TeacherPosition extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
+
 }

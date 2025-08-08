@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             StudentsTableSeeder::class,
             TeachersTableSeeder::class,
             GroupsTableSeeder::class,
-            TeacherPositionsTableSeeder::class
+            SubjectsTableSeeder::class,
         ]);
     }
 }

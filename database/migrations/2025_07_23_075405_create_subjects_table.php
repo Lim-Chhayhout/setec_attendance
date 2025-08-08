@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('group_name', 50);
-            $table->string('shift');
-            $table->string('program', 100);
+            $table->string('title', 100);
             $table->timestamps();
         });
 
-        Schema::create('teacher_group_tokens', function (Blueprint $table) {
+        Schema::create('teacher_subject_tokens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
-            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,7 +30,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
-        Schema::dropIfExists('teacher_group_tokens');
+        Schema::dropIfExists('subjects');
+        Schema::dropIfExists('teacher_subject_tokens');
     }
 };

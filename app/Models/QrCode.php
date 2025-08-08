@@ -15,6 +15,7 @@ class QrCode extends Model
 
     protected $fillable = [
         'qr_token',
+        'ip_address',
         'teacher_id',
         'duration_min',
         'created_at',
@@ -26,8 +27,14 @@ class QrCode extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-    public function detail()
+    public function qrCodeDetail()
     {
         return $this->hasOne(QrCodeDetail::class, 'qr_id');
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'qr_id');
+    }
+
 }

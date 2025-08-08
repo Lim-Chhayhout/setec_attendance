@@ -27,16 +27,19 @@ class Teacher extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * The positions that belong to this teacher.
-     */
-    public function positions()
-    {
-        return $this->hasMany(TeacherPosition::class);
-    }
-
     public function qrCodes()
     {
         return $this->hasMany(QrCode::class);
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'teacher_group_tokens', 'teacher_id', 'group_id');
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'teacher_subject_tokens', 'teacher_id', 'subject_id');
+    }
+
 }

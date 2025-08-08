@@ -31,9 +31,12 @@ class QRController extends Controller
         $token = Str::random(32);
         $now = Carbon::now();
         $expiresAt = $now->copy()->addMinutes((int) $request->duration);
+        $ip = $request->ip();
+        $ipPrefix = implode('.', array_slice(explode('.', $ip), 0, 3));
 
         $qrCode = ModelQrCode::create([
             'qr_token' => $token,
+            'ip_address' => $ipPrefix,
             'teacher_id' => $teacherId,
             'duration_min' => $request->duration,
             'created_at' => $now,
@@ -65,10 +68,9 @@ class QRController extends Controller
             ->first();
 
         if ($qr) {
+            
             $detail = ModelQrCodeDetail::where('qr_id', $qr->id)->first();
-
-            $qrHtml = QrCode::format('svg')->generate($qr->qr_token);
-
+            
             $qrData = [
                 'created_at' => $qr->created_at,
                 'expired_at' => $qr->expired_at,
@@ -79,6 +81,8 @@ class QRController extends Controller
                 'study_time' => $detail->study_time,
                 'note' => $detail->note,
             ];
+
+            $qrHtml = QrCode::format('svg')->generate($qr->qr_token);
 
             return view('teacher.attendanceqrcode', [
                 'qr' => $qrHtml,
