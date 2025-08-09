@@ -68,47 +68,47 @@ let html5QrCode;
 
 function initQrScan() {
 
-    // document.addEventListener('click', async function (e) {
-    //     const openBtn = e.target.closest('#open-camera');
-    //     const closeBtn = e.target.closest('#close-camera');
-    //     const camPopup = document.getElementById('cam-popup');
+    document.addEventListener('click', async function (e) {
+        const openBtn = e.target.closest('#open-camera');
+        const closeBtn = e.target.closest('#close-camera');
+        const camPopup = document.getElementById('cam-popup');
 
-    //     if (openBtn && camPopup) {
-    //         camPopup.style.display = 'flex';
+        if (openBtn && camPopup) {
+            camPopup.style.display = 'flex';
 
-    //         if (!html5QrCode) {
-    //             html5QrCode = new Html5Qrcode("reader");
-    //         }
+            if (!html5QrCode) {
+                html5QrCode = new Html5Qrcode("reader");
+            }
 
-    //         try {
-    //             await html5QrCode.start(
-    //                 { facingMode: "environment" },
-    //                 { fps: 100, qrbox: 250 },
-    //                 (decodedText, decodedResult) => {
-    //                     console.log("Scanned:", decodedText);
-    //                     html5QrCode.stop().then(() => {
-    //                         camPopup.style.display = 'none';
-    //                     });
-    //                 },
-    //                 (errorMessage) => {}
-    //             );
-    //         } catch (err) {
-    //             console.error("Camera start error", err);
-    //         }
-    //     }
+            try {
+                await html5QrCode.start(
+                    { facingMode: "environment" },
+                    { fps: 100, qrbox: 250 },
+                    (decodedText) => {
+                        html5QrCode.stop().then(() => {
+                            camPopup.style.display = 'none';
+                            sendTokenToServer(decodedText);
+                        });
+                    },
+                    () => {}
+                );
+            } catch (err) {
+                console.error("Camera start error", err);
+            }
+        }
 
-    //     if (closeBtn && camPopup) {
-    //         camPopup.style.display = 'none';
+        if (closeBtn && camPopup) {
+            camPopup.style.display = 'none';
 
-    //         if (html5QrCode && html5QrCode.getState() === Html5QrcodeScannerState.SCANNING) {
-    //             html5QrCode.stop().then(() => {
-    //                 html5QrCode.clear();
-    //             }).catch(err => {
-    //                 console.error("Stop failed", err);
-    //             });
-    //         }
-    //     }
-    // });
+            if (html5QrCode && html5QrCode.getState() === Html5QrcodeScannerState.SCANNING) {
+                html5QrCode.stop().then(() => {
+                    html5QrCode.clear();
+                }).catch(err => {
+                    console.error("Stop failed", err);
+                });
+            }
+        }
+    });
 
     const fileInput = document.getElementById('qr-file');
     if (!fileInput) return;
@@ -136,6 +136,8 @@ function initQrScan() {
                         loadPopup('/popup/scanned');
                     } else if (data.status === 'expired') {
                         loadPopup('/popup/expired');
+                    }else if (data.status === 'error') {
+                        loadPopup('/popup/error');
                     } else {
                         loadPopup('/popup/failed');
                     }
@@ -145,8 +147,36 @@ function initQrScan() {
                 });
             })
             .catch(err => {
-                loadPopup('/popup/failed');
+                loadPopup('/popup/error');
             });
+    });
+}
+
+function sendTokenToServer(token) {
+    fetch('/student/scan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            loadPopup('/popup/success', data);
+        } else if (data.status === 'scanned') {
+            loadPopup('/popup/scanned');
+        } else if (data.status === 'expired') {
+            loadPopup('/popup/expired');
+        } else if (data.status === 'error') {
+            loadPopup('/popup/error');
+        } else {
+            loadPopup('/popup/failed');
+        }
+    })
+    .catch(() => {
+        loadPopup('/popup/failed');
     });
 }
 
@@ -160,13 +190,13 @@ function loadPopup(url, data = null) {
             if (data) {
                 popupContainer.querySelector('.teacher .value').textContent = data.teacher;
                 popupContainer.querySelector('.subject .value').textContent = data.subject;
+                popupContainer.querySelector('.group .value').textContent = data.group;
                 popupContainer.querySelector('.room .value').textContent = data.room;
                 popupContainer.querySelector('.time .value').textContent = data.study_time;
                 popupContainer.querySelector('.status .value').textContent = data.status_text;
             }
         });
 }
-
 
 
 document.addEventListener('click', function (e) {

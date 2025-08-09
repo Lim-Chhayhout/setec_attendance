@@ -9,7 +9,7 @@
                 <legend>Details</legend>
 
                 <div class="row">
-                    "Please choose a correct QR code attendance image."
+                    "Please choose a correct QR code attendance image or group."
                 </div>
             </fieldset>    
         <div class="footer">

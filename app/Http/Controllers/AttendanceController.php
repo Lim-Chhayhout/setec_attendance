@@ -28,6 +28,14 @@ class AttendanceController extends Controller
                 return response()->json(['status' => 'failed', 'message' => 'Student not found']);
             }
 
+            $studentGroup = $user->student->group->group_name;
+
+            $qrGroup = $qr->qrCodeDetail->group;
+
+            if ($studentGroup !== $qrGroup) {
+                return response()->json(['status' => 'error']);
+            }
+
             $studentId = $user->student->id;
 
             $exists = ModelAttendance::where('qrcode_id', $qr->id)
@@ -50,6 +58,7 @@ class AttendanceController extends Controller
                 'status' => 'success',
                 'teacher' => $fullTeacherName ?? 'N/A',
                 'subject' => $qr->qrCodeDetail->subject ?? '',
+                'group' => $qr->qrCodeDetail->group ?? '',
                 'room' => $qr->qrCodeDetail->room ?? '',
                 'study_time' => $qr->qrCodeDetail->study_time ?? '',
                 'status_text' => '✅ Present',
