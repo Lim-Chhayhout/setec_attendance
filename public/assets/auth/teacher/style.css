@@ -179,3 +179,47 @@
     display: block;
 }
 
+.attendance .con .row .head-attendance{
+    width: 100%;
+    padding: 1rem !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head-attendance .move-week {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.head-attendance .move-week .left,
+.head-attendance .move-week .right{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.head-attendance .move-week .left img,
+.head-attendance .move-week .right img{
+    width: 10px;
+}
+
+
+.attendance .con .row .head-attendance .des{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.attendance .con .row .head-attendance .option{
+    padding: 0.5rem 1rem;
+    background-color: #00000050;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.group-select-show{
+    display: flex;
+    gap: 1rem;
+}

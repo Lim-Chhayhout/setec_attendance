@@ -1,6 +1,6 @@
 <div id="scanned-popup" class="scanned-message">
     <div class="box">
-        <div class="header">
+        <div class="header" style="color: green;">
             <i class="fa-solid fa-clipboard-check"></i>
             <div>Attendance Scan Successfully!</div>
         </div>
@@ -15,6 +15,11 @@
                 </div>
                 <div class="row subject">
                     <div class="title">Subject</div>
+                    <div class="line"></div>
+                    <div class="value">Loading...</div>
+                </div>
+                <div class="row group">
+                    <div class="title">Group</div>
                     <div class="line"></div>
                     <div class="value">Loading...</div>
                 </div>
